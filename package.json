@@ -4,6 +4,7 @@
   "description": "Language support for scripts for the JsonPatcher minecraft mod",
   "version": "1.0.0",
   "publisher": "MattiDragon",
+  "repository": "github:MattiDragon/JsonPatcherCode",
   "icon": "icon.png",
   "license": "MIT",
   "engines": {

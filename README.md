@@ -11,7 +11,7 @@ This extension provides basic syntax highlighting as well as some language serve
 - Error highlighting
 - Unused variable detection
 - Goto definition/references
-  - Only for variables
+  - Only for variables and types in doc comments
 
 ## Requirements
 
@@ -24,6 +24,9 @@ This extension has the following settings:
 - `jsonpatcher.trace.server`: Control the amount of logging from the language server
 - `jsonpatcher.java.location`: An override for the java executable used for the language server
 - `jsonpatcher.java.options`: Addition VM options to pass to the language server
+- `jsonpatcher.server.enabled`: Whether the language server is enabled
+- `jsonpatcher.server.location`: An override for the location of the server jar
+- `jsonpatcher.server.port`: The port that the server listens on
 
 ## Known Issues and Limitations
 
