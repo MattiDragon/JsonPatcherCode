@@ -1,0 +1,127 @@
+{
+  "name": "jsonpatcher",
+  "displayName": "JsonPatcher",
+  "description": "Language support for scripts for the JsonPatcher minecraft mod",
+  "version": "1.0.0",
+  "publisher": "MattiDragon",
+  "icon": "icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.89.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "jsonpatch.restart_server",
+        "title": "Restart JsonPatcher language server",
+        "category": "JsonPatcher"
+      }
+    ],
+    "languages": [
+      {
+        "id": "jsonpatcher",
+        "aliases": [
+          "JsonPatcher",
+          "JsonPatch"
+        ],
+        "extensions": [
+          ".jsonpatch"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "jsonpatcher",
+        "scopeName": "source.jsonpatch",
+        "path": "./syntaxes/jsonpatcher.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "JsonPatcher",
+      "properties": {
+        "jsonpatcher.trace.server": {
+          "scope": "window",
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the JsonPatcher language server.",
+          "order": 0
+        },
+        "jsonpatcher.java.location": {
+          "scope": "window",
+          "type": "string",
+          "default": "",
+          "description": "An override for the java executable to use. Must be java 21 or later. If empty, then the JAVA_HOME environment variable is used instead.\nNote: You need to restart the server for this setting to apply",
+          "order": 1
+        },
+        "jsonpatcher.java.options": {
+          "scope": "window",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional VM options for the JVM running the language server. Be careful not to cause anything to be printed to stdout as it will interfere with lsp communications.\nNote: You need to restart the server for this setting to apply",
+          "order": 1.1
+        },
+        "jsonpatcher.server.enabled": {
+          "scope": "window",
+          "type": "boolean",
+          "default": true,
+          "description": "Allows toggling the language server off. It's recommended to keep the server on whenever possible.\nNote: You need to restart the server for this setting to apply",
+          "order": 2
+        },
+        "jsonpatcher.server.location": {
+          "scope": "window",
+          "type": "string",
+          "default": "",
+          "description": "An override for the location of the language server jar. Must be the -all variant with all libraries included. Leave empty to use the bundled server.\nNote: You need to restart the server for this setting to apply",
+          "order": 2.1
+        },
+        "jsonpatcher.server.port": {
+          "scope": "window",
+          "type": "integer",
+          "default": 18092,
+          "exclusiveMinimum": 1024,
+          "exclusiveMaximum": 65535,
+          "description": "The port that the language server will listen on for the client. Change this if the default is being used by some other application.\nNote: You need to restart the server for this setting to apply",
+          "order": 2.2
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "vscode-languageclient": "9.0.1"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "build": "npm run esbuild-base -- --sourcemap",
+    "watch": "npm run esbuild-base -- --sourcemap --watch",
+    "compile": "tsc -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.89.0",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "@vscode/test-electron": "^2.3.9",
+    "esbuild": "^0.21.4",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5"
+  }
+}

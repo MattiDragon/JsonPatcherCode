@@ -1,0 +1,249 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "JsonPatcher",
+  "patterns_": [],
+  "patterns": [
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#constant"
+    },
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#structure"
+    },
+    {
+      "include": "#string"
+    }
+  ],
+  "repository": {
+    "structure": {
+      "patterns": [
+        {
+          "name": "storage.type.jsonpatcher",
+          "match": "\\b(var|val)\\s+"
+        },
+        {
+          "match": "\\b(import) *(\".*\")(?: *(as) *([A-Za-z_][\\w$]*|'(?:(\\\\.)|[^\\\\])*'))?",
+          "captures": {
+            "1": {
+              "name": "storage.type.import.jsonpatcher"
+            },
+            "2": {
+              "name": "string.quoted.double.jsonpatcher"
+            },
+            "3": {
+              "name": "keyword.other.as.jsonpatcher"
+            },
+            "4": {
+              "name": "entity.name.import.jsonpatcher"
+            }
+          }
+        },
+        {
+          "match": "\\b(function)\\s+([A-Za-z_][\\w$]*|'(?:(\\\\.)|[^\\\\])*')",
+          "captures": {
+            "1": {
+              "name": "storage.type.jsonpatcher"
+            },
+            "2": {
+              "name": "entity.name.function.jsonpatcher"
+            },
+            "3": {
+              "name": "constant.character.escape.jsonpatcher"
+            }
+          }
+        },
+        {
+          "name": "keyword.operator.jsonpatcher",
+          "match": "\\b(is|in|\\->)\\b"
+        },
+        {
+          "match": "\\.\\s*([A-Za-z_][\\w$]*|'(?:(\\\\.)|[^\\\\])*')\\b",
+          "captures": {
+            "1": {
+              "name": "variable.other.property.jsonpatcher"
+            },
+            "2": {
+              "name": "constant.character.escape.jsonpatcher"
+            }
+          }
+        },
+        {
+          "match": "\\b([A-Za-z_][\\w$]*|'(?:(\\\\.)|[^\\\\])*')\\(",
+          "captures": {
+            "1": {
+              "name": "entity.name.function.jsonpatcher"
+            },
+            "2": {
+              "name": "constant.character.escape.jsonpatcher"
+            }
+          }
+        },
+        {
+          "match": "(@\\s*(?:[A-Za-z_][\\w$]*|'(?:(\\\\.)|[^\\\\])*'))",
+          "captures": {
+            "1": {
+              "name": "storage.type.annotation.jsonpatcher"
+            },
+            "2": {
+              "name": "constant.character.escape.jsonpatcher"
+            }
+          }
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.control.jsonpatcher",
+          "match": "\\b(if|else|while|foreach|for|return|break|continue)\\b"
+        },
+        {
+          "name": "support.variable.jsonpatcher",
+          "match": "(\\b|')(_isLibrary|_target|_isMetapatch)\\1"
+        },
+        {
+          "name": "keyword.operator.arithmetic.jsonpatcher",
+          "match": "[+*\\/%\\-~]"
+        },
+        {
+          "name": "keyword.operator.assignment.arithmetic.jsonpatcher",
+          "match": "[+*/%-~]="
+        },
+        {
+          "name": "keyword.operator.comparison.jsonpatcher",
+          "match": "<|>|<=|>=|!=|=="
+        },
+        {
+          "name": "keyword.operator.bitwise.jsonpatcher",
+          "match": "[|&^~]"
+        },
+        {
+          "name": "keyword.operator.assignment.bitwise.jsonpatcher",
+          "match": "[|&^]="
+        },
+        {
+          "name": "keyword.operator.assignment.jsonpatcher",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.ternary.jsonpatcher",
+          "match": "[?:]"
+        },
+        {
+          "name": "keyword.operator.logical.jsonpatcher",
+          "match": "\\|\\||&&|!"
+        },
+        {
+          "name": "keyword.operator.increment-decrement.jsonpatcher",
+          "match": "\\-\\-|\\+\\+|!!"
+        },
+        {
+          "name": "punctuation.terminator.jsonpatcher",
+          "match": ";"
+        },
+        {
+          "name": "variable.language.this.jsonpatcher",
+          "match": "\\$"
+        },
+        {
+          "name": "punctuation.accessor.jsonpatcher",
+          "match": "\\."
+        }
+      ]
+    },
+    "constant": {
+      "patterns": [
+        {
+          "name": "constant.language.jsonpatcher",
+          "match": "\\b(true|false|null)\\b"
+        },
+        {
+          "name": "constant.numeric.jsonpatcher",
+          "match": "\\b([0-9]+(\\.[0-9]*)?)\\b"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.jsonpatcher",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.jsonpatcher",
+              "match": "\\\\(?:[nrtb\"'\\\\0]|x[0-9A-Za-z]{2}|u[0-9A-Za-z]{4})"
+            }
+          ]
+        },
+        {
+          "patterns": [
+            {
+              "match": "([A-Za-z_][\\w$]*|'(?:(\\\\.)|[^\\\\])*')",
+              "captures": {
+                "1": {
+                  "name": "variable.other.jsonpatcher"
+                },
+                "2": {
+                  "name": "constant.character.escape.jsonpatcher"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.line.jsonpatcher",
+          "begin": "#(?!\\|)",
+          "end": "$"
+        },
+        {
+          "name": "comment.block.documentation",
+          "begin": "#\\| *(?:(type|value|module)(?:(?<=type) *(\\w+) *(:) *(.+)|(?<=value) *(\\w+)(\\.)(\\w+) *(:) *(.+)|(?<=module) *(\\w+)(?: +(at) +(\".+\"))?))?",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.documentation-type.jsonpatcher"
+            },
+            "2": {
+              "name": "entity.name.type.jsonpatcher"
+            },
+            "3": {
+              "name": "punctuation.accessor.jsonpatcher"
+            },
+            "5": {
+              "name": "entity.name.type.jsonpatcher"
+            },
+            "6": {
+              "name": "punctuation.accessor.jsonpatcher"
+            },
+            "7": {
+              "name": "entity.name.function.jsonpatcher"
+            },
+            "8": {
+              "name": "punctuation.accessor.jsonpatcher"
+            },
+            "10": {
+              "name": "entity.name.type.module.jsonpatcher"
+            },
+            "11": {
+              "name": "keyword.other.module-location.jsonpatcher"
+            },
+            "12": {
+              "name": "string.quoted.double.jsonpatcher"
+            }
+          },
+          "end": "^(?!\\s*#\\|)"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.jsonpatch"
+}
